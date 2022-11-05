@@ -2,7 +2,7 @@ package onenote
 
 import "github.com/PuerkitoBio/goquery"
 
-func (client *Client) getTasks(doc *goquery.Document) ([]string, []string) {
+func (client *Client) GetTasks(doc *goquery.Document) ([]string, []string) {
 	var notCompletedTasks []string
 	var completedTasks []string
 	doc.Find("p").Each(func(i int, s *goquery.Selection) {
@@ -20,7 +20,7 @@ func (client *Client) getTasks(doc *goquery.Document) ([]string, []string) {
 	return notCompletedTasks, completedTasks
 }
 
-func (client *Client) getTaskIDs(doc *goquery.Document) []string {
+func (client *Client) GetTaskIDs(doc *goquery.Document) []string {
 	var taskIDs []string
 	doc.Find("p").Each(func(i int, s *goquery.Selection) {
 		tag, ok := s.Attr("data-tag")
