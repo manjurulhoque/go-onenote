@@ -1,6 +1,7 @@
 package onenote
 
 import (
+	"github.com/PuerkitoBio/goquery"
 	"io"
 	"net/http"
 )
@@ -22,4 +23,25 @@ func (client *Client) PageContent(url string) (*http.Response, []byte, error) {
 	}
 
 	return client.DoRequest(req)
+}
+
+// ParseTasksWithIdAndTagAndText Parse tasks with id, tag and text
+func (client *Client) ParseTasksWithIdAndTagAndText(doc *goquery.Document) []Task {
+	var tasks []Task
+	doc.Find("p").Each(func(i int, s *goquery.Selection) {
+		tag, ok := s.Attr("data-tag")
+		if ok {
+			if tag == "to-do:completed" || tag == "to-do" {
+				if id, ok := s.Attr("id"); ok {
+					tasks = append(tasks, Task{
+						Tag:  tag,
+						Text: s.Text(),
+						Id:   id,
+					})
+				}
+			}
+		}
+	})
+
+	return tasks
 }
