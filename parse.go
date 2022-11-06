@@ -21,5 +21,5 @@ func (client *Client) PageContent(url string) (*http.Response, []byte, error) {
 		return nil, nil, err
 	}
 
-	return client.doRequest(req)
+	return client.DoRequest(req)
 }

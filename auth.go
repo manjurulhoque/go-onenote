@@ -48,7 +48,7 @@ func (client *Client) GetAccessToken(refreshTokenRequest *RefreshTokenRequest) (
 
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-	response, result, err := client.doRequest(req)
+	response, result, err := client.DoRequest(req)
 	if err != nil {
 		return response, nil, err
 	}

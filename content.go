@@ -12,8 +12,9 @@ func (client *Client) UpdatePageContent(data []PageContent, url string) (*http.R
 		return nil, nil, err
 	}
 	req, err := http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(j))
+	req.Header.Set("Content-Type", "application/json")
 	if err != nil {
 		return nil, nil, err
 	}
-	return client.doRequest(req)
+	return client.DoRequest(req)
 }

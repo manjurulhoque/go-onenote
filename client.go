@@ -13,6 +13,7 @@ type Client struct {
 	ApiKey     string
 	Host       string
 	Base       string
+	Headers    map[string]string
 }
 
 func NewClient(apiKey string) *Client {
@@ -31,8 +32,11 @@ func (client *Client) newRequest(path string) (*http.Request, error) {
 	return req, nil
 }
 
-func (client *Client) doRequest(req *http.Request) (*http.Response, []byte, error) {
+func (client *Client) DoRequest(req *http.Request) (*http.Response, []byte, error) {
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", client.ApiKey))
+	for key, value := range client.Headers {
+		req.Header.Set(key, value)
+	}
 	response, err := client.HttpClient.Do(req)
 	if err != nil {
 		return response, nil, err
