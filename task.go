@@ -1,6 +1,11 @@
 package onenote
 
-import "github.com/PuerkitoBio/goquery"
+import (
+	"bytes"
+	"encoding/json"
+	"github.com/PuerkitoBio/goquery"
+	"net/http"
+)
 
 func (client *Client) GetTasks(doc *goquery.Document) ([]string, []string) {
 	var notCompletedTasks []string
@@ -35,4 +40,17 @@ func (client *Client) GetTaskIDs(doc *goquery.Document) []string {
 	})
 
 	return taskIDs
+}
+
+func (client *Client) UpdateTask(data []PageContent, url string) (*http.Response, []byte, error) {
+	j, err := json.Marshal(data)
+	if err != nil {
+		return nil, nil, err
+	}
+	req, err := http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(j))
+	req.Header.Set("Content-Type", "application/json")
+	if err != nil {
+		return nil, nil, err
+	}
+	return client.DoRequest(req)
 }
