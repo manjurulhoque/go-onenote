@@ -8,7 +8,8 @@ type PageContent struct {
 }
 
 type Task struct {
-	Text string `json:"text"`
-	Tag  string `json:"tag"`
-	Id   string `json:"id"`
+	Text   string `json:"text"`
+	Tag    string `json:"tag"`
+	Id     string `json:"id"`
+	Status string `json:"status"`
 }

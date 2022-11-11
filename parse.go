@@ -33,11 +33,21 @@ func (client *Client) ParseTasksWithIdAndTagAndText(doc *goquery.Document) []Tas
 		if ok {
 			if tag == "to-do:completed" || tag == "to-do" {
 				if id, ok := s.Attr("id"); ok {
-					tasks = append(tasks, Task{
-						Tag:  tag,
-						Text: s.Text(),
-						Id:   id,
-					})
+					if tag != "to-do:completed" {
+						tasks = append(tasks, Task{
+							Tag:    tag,
+							Text:   s.Text(),
+							Id:     id,
+							Status: "completed",
+						})
+					} else {
+						tasks = append(tasks, Task{
+							Tag:    tag,
+							Text:   s.Text(),
+							Id:     id,
+							Status: "uncompleted",
+						})
+					}
 				}
 			}
 		}
